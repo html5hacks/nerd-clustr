@@ -1,6 +1,10 @@
 {
-  "name": "Drywall.js",
-  "version": "0.1.1",
+  "name": "SXSW-Party",
+  "engines": {
+    "node": "0.8.14",
+    "npm":  "1.1.x"
+  },
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "node app"
