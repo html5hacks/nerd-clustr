@@ -31,8 +31,7 @@ require('./passport')(app, passport);
 app.configure(function(){
   //settings
   app.disable('x-powered-by');
-  //app.set('port', process.env.PORT || 3000);
-  app.set('port', 3000);
+  app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.set('strict routing', true);
