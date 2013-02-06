@@ -1,0 +1,43 @@
+extends ../../layouts/default
+
+block head
+  title Sign Up
+
+block feet
+  script(src='/views/signup/index.js')
+
+block body
+  div.page-header
+    h1 Sign Up
+  .row
+    .span5
+      #signup
+  .row
+    .span5
+      a.btn.btn-large.btn-block(href="/auth/twitter") <i class="icon-twitter icon-large"></i> Connect with Twitter
+      a.btn.btn-large.btn-block(href="/auth/github") <i class="icon-github icon-large"></i> Connect with GitHub
+      
+  script(type='text/template', id='tmpl-signup')
+    form.form-horizontal
+      div.alerts
+        |<% _.each(errors, function(err) { %>
+        div.alert.alert-error
+          |<%= err %>
+        |<% }); %>
+      div.control-group(class!='<%= errfor.username ? "error" : "" %>')
+        label.control-label Pick a Username:
+        div.controls
+          input(type='text', name='username', value!='<%= username %>')
+          span.help-inline <%= errfor.username %>
+      div.control-group(class!='<%= errfor.email ? "error" : "" %>')
+        label.control-label Enter Your Email:
+        div.controls
+          input(type='text', name='email', value!='<%= email %>')
+          span.help-inline <%= errfor.email %>
+      div.control-group(class!='<%= errfor.password ? "error" : "" %>')
+        label.control-label Create a Password:
+        div.controls
+          input(type='password', name='password', value!='<%= password %>')
+          span.help-inline <%= errfor.password %>
+      div.form-actions
+        button.btn.btn-primary.btn-signup(type='button') Create My Account

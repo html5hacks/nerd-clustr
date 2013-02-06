@@ -1,0 +1,22 @@
+{
+  "name": "Drywall.js",
+  "version": "0.1.1",
+  "private": true,
+  "scripts": {
+    "start": "node app"
+  },
+  "dependencies": {
+    "express": "~3.0.0",
+    "jade": "~0.27.7",
+    "connect-mongo": "~0.2.0",
+    "async": "~0.1.22",
+    "mongoose": "~3.5.3",
+    "emailjs": "~0.3.4",
+    "passport": "~0.1.15",
+    "passport-local": "~0.1.6",
+    "passport-twitter": ">=0.1.x",
+    "passport-github": ">=0.1.x",
+    "socket.io": "~0.9.11",
+    "passport.socketio": "1.0.0"
+  }
+}

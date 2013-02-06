@@ -1,0 +1,14 @@
+{
+  "auth": {
+    "twitter": {
+      "consumerkey" : "QxP1K7eduqfna4rqG52YGw",
+      "consumersecret" : "drYiOp4eTfOz19AMzzNUdthbjGuBXy1PePfNxcoE",
+      "callback" : "http://127.0.0.1:3000/auth/twitter/callback"
+    },
+    "github": {
+      "consumerkey" : "47b956f196fec958ab31",
+      "consumersecret" : "d0488d4146bdf1311a2a781530c87bba666a8a13",
+      "callback" : "http://127.0.0.1:3000/auth/github/callback"
+    }
+  }
+}
