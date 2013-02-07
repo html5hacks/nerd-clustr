@@ -35,7 +35,7 @@ app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.set('strict routing', true);
-  app.set('project-name', 'SXSW Nerd Herd');
+  app.set('project-name', 'SXSW Nerd Herdr');
   app.set('company-name', 'frog');
   app.set('admin-email', 'webdev.jdcravens@gmail.com');
   app.set('email-from-name', app.get('project-name')+ ' Website');

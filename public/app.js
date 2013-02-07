@@ -24,6 +24,7 @@ $(function() {
   var sentData = {}
 
   var connects = {};
+  console.log(connects)
   var markers = {};
   var active = false;
 
@@ -32,12 +33,19 @@ $(function() {
   });
 
   socket.on('load:coords', function(data) {
+    console.log('load:coords')
+
+    // if the user is new
+    // set the marker if that instance with unique id is not present in connects object. 
+    // unique id and coords were created on page load - not updated - just sending 
+    // the same coords as the user moves the mouse
     if (!(data.id in connects)) {
       setMarker(data);
     }
 
     connects[data.id] = data;
-          connects[data.id].updated = $.now(); // shothand for (new Date).getTime()
+    connects[data.id].updated = $.now(); // shothand for (new Date).getTime()    
+
   });
 
   // check whether browser supports geolocation api
@@ -56,7 +64,7 @@ $(function() {
     var userMarker = L.marker([lat, lng], {
       icon: redIcon
     });
-    
+
     // uncomment for static debug
     //userMarker = L.marker([30.2630, 262.254], { icon: redIcon });
 
@@ -72,7 +80,21 @@ $(function() {
     // set map bounds
     //map.fitWorld();
     userMarker.addTo(map);
-    userMarker.bindPopup('<p>You are there! Your ID is ' + userId + '</p>').openPopup();
+    userMarker.bindPopup('<p>You are here! Your ID is ' + userId + '</p>').openPopup();
+
+
+    // var markers = new L.MarkerClusterGroup();
+    
+    // for (var i = 0; i < addressPoints.length; i++) {
+    //   var a = addressPoints[i];
+    //   var title = a[2];
+    //   var marker = new L.Marker(new L.LatLng(a[0], a[1]), { title: title });
+    //   marker.bindPopup(title);
+    //   markers.addLayer(marker);
+    // }
+
+    // map.addLayer(markers);
+
 
     var emit = $.now();
     // send coords on when user is active
@@ -89,6 +111,9 @@ $(function() {
         }]
       }
 
+      //console.log("now: " + $.now());
+      //console.log("emit: " + emit);
+
       if ($.now() - emit > 30) {
         socket.emit('send:coords', sentData);
         emit = $.now();
@@ -100,13 +125,53 @@ $(function() {
     active = false;
   });
 
+
+  markers = new L.MarkerClusterGroup();
+
   // showing markers for connections
   function setMarker(data) {
-    for (i = 0; i < data.coords.length; i++) {
-      var marker = L.marker([data.coords[i].lat, data.coords[i].lng], { icon: yellowIcon }).addTo(map);
-      marker.bindPopup('<p>One more external user is here!</p>');
+
+    console.log(data);
+
+    nerdsPoints = [];
+
+    var nerdsPoint = [];
+
+    nerdsPoint[0] = data.coords[0].lat;
+    nerdsPoint[1] = data.coords[0].lng;
+    nerdsPoint[2] = data.id;
+
+    nerdsPoints.push(nerdsPoint);
+
+    // for (i = 0; i < data.coords.length; i++) {
+    //   var marker = L.marker([data.coords[i].lat, data.coords[i].lng], { icon: yellowIcon }).addTo(map);
+    //   marker.bindPopup('<p>One more external user is here!</p>');
+
+      for (var i = 0; i < nerdsPoints.length; i++) {
+        var a = nerdsPoints[i];
+        var title = a[2];
+        var marker = new L.Marker(new L.LatLng(a[0], a[1]), { title: title });
+        marker.bindPopup(title);
+        markers.addLayer(marker);
+      }
+
+      map.addLayer(markers);
       markers[data.id] = marker;
-    }
+
+
+    // var markers = new L.MarkerClusterGroup();
+    
+    // for (var i = 0; i < addressPoints.length; i++) {
+    //   var a = addressPoints[i];
+    //   var title = a[2];
+    //   var marker = new L.Marker(new L.LatLng(a[0], a[1]), { title: title });
+    //   marker.bindPopup(title);
+    //   markers.addLayer(marker);
+    // }
+
+    // map.addLayer(markers);
+
+    //}
   }
 
   // handle geolocation api errors
@@ -126,14 +191,38 @@ $(function() {
   }
 
   // delete inactive users every 15 sec
-  setInterval(function() {
-    for (ident in connects){
-      if ($.now() - connects[ident].updated > 15000) {
-        delete connects[ident];
-        map.removeLayer(markers[ident]);
-      }
-          }
-      }, 15000);
+  // setInterval(function() {
+  //   for (ident in connects){
+  //     if ($.now() - connects[ident].updated > 15000) {
+  //       delete connects[ident];
+  //       map.removeLayer(markers[ident]);
+  //     }
+  //   }
+  // }, 15000);
+
+
+
+    // var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png',
+    //   cloudmadeAttribution = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade, Points &copy 2012 LINZ',
+    //   cloudmade = new L.TileLayer(cloudmadeUrl, {maxZoom: 17, attribution: cloudmadeAttribution}),
+    //   latlng = new L.LatLng(-37.82, 175.24);
+
+    // var map = new L.Map('map', {center: latlng, zoom: 13, layers: [cloudmade]});
+
+    // var markers = new L.MarkerClusterGroup();
+    
+    // for (var i = 0; i < addressPoints.length; i++) {
+    //   var a = addressPoints[i];
+    //   var title = a[2];
+    //   var marker = new L.Marker(new L.LatLng(a[0], a[1]), { title: title });
+    //   marker.bindPopup(title);
+    //   markers.addLayer(marker);
+    // }
+
+    // map.addLayer(markers);
+
+
+
 });
 
 
