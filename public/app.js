@@ -56,8 +56,9 @@ $(function() {
     var userMarker = L.marker([lat, lng], {
       icon: redIcon
     });
+    
     // uncomment for static debug
-    // userMarker = L.marker([51.45, 30.050], { icon: redIcon });
+    //userMarker = L.marker([30.2630, 262.254], { icon: redIcon });
 
     // load leaflet map
     map = L.map('map', {
