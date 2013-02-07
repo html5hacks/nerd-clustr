@@ -83,17 +83,17 @@ $(function() {
     userMarker.bindPopup('<p>You are here! Your ID is ' + userId + '</p>').openPopup();
 
 
-    // var markers = new L.MarkerClusterGroup();
-    
-    // for (var i = 0; i < addressPoints.length; i++) {
-    //   var a = addressPoints[i];
-    //   var title = a[2];
-    //   var marker = new L.Marker(new L.LatLng(a[0], a[1]), { title: title });
-    //   marker.bindPopup(title);
-    //   markers.addLayer(marker);
-    // }
+      var markers = new L.MarkerClusterGroup();
+      
+      for (var i = 0; i < addressPoints.length; i++) {
+        var a = addressPoints[i];
+        var title = a[2];
+        var marker = new L.Marker(new L.LatLng(a[0], a[1]), { title: title });
+        marker.bindPopup(title);
+        markers.addLayer(marker);
+      }
 
-    // map.addLayer(markers);
+      map.addLayer(markers);
 
 
     var emit = $.now();
