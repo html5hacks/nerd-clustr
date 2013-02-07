@@ -90,19 +90,15 @@ var server = http.createServer(app).listen(app.get('port'), function(){
 
 var io = require('socket.io').listen(server);
 
-
-  //except for the optional fail and success the parameter object has the 
-  //same attribute than the session middleware http://www.senchalabs.org/connect/middleware-session.html
-
 io.set('loglevel',10) // set log level to get all debug messages
 
 io.set("authorization", passportSocketIo.authorize({
-  key: 'connect.sid',       //the cookie where express (or connect) stores its session id.
+  key: 'connect.sid', //the cookie where express (or connect) stores its session id.
   secret: mySecret, //the session secret to parse the cookie
-  store:   mySessionStore,     //the session store that express uses
-  fail: function(data, accept) {     // *optional* callbacks on success or fail
+  store:   mySessionStore, //the session store that express uses
+  fail: function(data, accept) { // *optional* callbacks on success or fail
     console.log('fail');
-    accept(null, false);             // second param takes boolean on whether or not to allow handshake
+    accept(null, false); // second param takes boolean on whether or not to allow handshake
   },
   success: function(data, accept) {
     console.log('success');
@@ -110,52 +106,73 @@ io.set("authorization", passportSocketIo.authorize({
   }
 }));
 
+// Clients is a list of users who have connected
+var clients = [];
+var count = 0;
+///////////////////////////////////////////////////////////////////// SEND() UTILITY
+function send(message) {   
+  clients.forEach(function(client) {
+      client.send(message);
+  });
+}
 
 io.on('connection',function(socket){
-  socket.emit('init',{msg:"test"})
 
-    console.log("user connected");
-    console.log("user connected: ", socket.handshake.user.username);
+  count++;
+  clients.push(socket);
 
-    //filter sockets by user...
-    var userGender = socket.handshake.user.gender, 
-        opposite = userGender === "male" ? "female" : "male";
+  io.sockets.emit('count', {
+      number: count
+  });
 
-    passportSocketIo.filterSocketsByUser(io, function (user) {
-      return user.gender === opposite;
-    }).forEach(function(s){
-      s.send("a " + userGender + " has arrived!");
+  socket.on('send:coords', function (data) {
+    socket.broadcast.emit('load:coords', data);
+  });
+  
+  //socket.emit('init',{msg:"test"})
+  // socket.on('init', function (data) {
+
+  //   // io.sockets.emit('pin', {
+  //   //     lat: data.Ya, // center: new google.maps.LatLng(30.2630, 262.254),
+  //   //     lng: data.Za, 
+  //   //     username: socket.handshake.user.username
+  //   // });
+
+  //   send(JSON.stringify({
+  //       type: 'pin',
+  //       lat: data.Ya, // center: new google.maps.LatLng(30.2630, 262.254),
+  //       lng: data.Za, 
+  //       username: socket.handshake.user.username
+  //     })
+  //   );
+  // })
+
+  // console.log("user connected: ", socket.handshake.user.username);
+
+  //filter sockets by user...
+  // var userGender = socket.handshake.user.gender, 
+  //     opposite = userGender === "male" ? "female" : "male";
+
+  // passportSocketIo.filterSocketsByUser(io, function (user) {
+  //   return user.gender === opposite;
+  // }).forEach(function(s){
+  //   s.send("a " + userGender + " has arrived!");
+  // });
+
+  // io.sockets.emit('pin', {
+  //     lat: 30.2630, // center: new google.maps.LatLng(30.2630, 262.254),
+  //     lng: 262.254 
+  // });
+
+  socket.on('disconnect', function (client) {
+    var index = clients.indexOf(client);
+    clients.splice(index,1);
+    count--;
+    io.sockets.emit('count', {
+        number: count
     });
+  });
 
 
 })
 
-  // io.set("authorization", passportSocketIo.authorize({
-  //   key:    'express.sid',       //the cookie where express (or connect) stores its session id.
-  //   secret: 'Sup3rS3cr3tK3y', //the session secret to parse the cookie
-  //   store:   mySessionStore,     //the session store that express uses
-  //   fail: function(data, accept) {     // *optional* callbacks on success or fail
-  //     console.log('fail');
-  //     accept(null, false);             // second param takes boolean on whether or not to allow handshake
-  //   },
-  //   success: function(data, accept) {
-  //     console.log('success');
-  //     accept(null, true);
-  //   }
-  // }));
-
-  // io.sockets.on("connection", function(socket){
-  //   console.log("user connected");
-  //   // console.log("user connected: ", socket.handshake.user.name);
-
-  //   //filter sockets by user...
-  //   // var userGender = socket.handshake.user.gender, 
-  //   //     opposite = userGender === "male" ? "female" : "male";
-
-  //   // passportSocketIo.filterSocketsByUser(sio, function (user) {
-  //   //   return user.gender === opposite;
-  //   // }).forEach(function(s){
-  //   //   s.send("a " + userGender + " has arrived!");
-  //   // });
-
-  // });

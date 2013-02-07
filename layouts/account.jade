@@ -5,6 +5,8 @@ html
       title #{title}
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     link(rel='stylesheet', href='/layouts/default.css')
+    link(rel='stylesheet', href='/layouts/styles.css')
+    link(rel='stylesheet', href='http://cdn.leafletjs.com/leaflet-0.4/leaflet.css')
     block neck
   body(onload="")
     div.navbar.navbar-inverse.navbar-fixed-top
@@ -44,8 +46,10 @@ html
     script(src='/vendor/underscore/underscore-min.js')
     script(src='/vendor/backbone/backbone-min.js')
     script(src='/vendor/bootstrap/js/bootstrap.min.js')
+    script(src='/vendor/leaflet/leaflet.js')    
     script(src='/vendor/socket.io/socket.io.js')
     script(src='/layouts/utility.js')
-    script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyC9V9zwHNI-99Q4x2scm9ASKcMzkJNmGzQ&sensor=false')
+    //script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyC9V9zwHNI-99Q4x2scm9ASKcMzkJNmGzQ&sensor=false')
+    //script(src='https://maps.googleapis.com/maps/api/js?v=3.10&sensor=false')
     script(src='/app.js')
     block feet
