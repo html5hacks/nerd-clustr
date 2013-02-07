@@ -1,4 +1,22 @@
 $(function() {
+
+  // TODO POSSIBILITIES
+  // 
+  // Add in new marker icons - based on nerdType
+  // Obviously add a nerdType to profile
+  // 
+  // Kill listener after first set of data is passed in sendData.
+  // Change the timing of the listener based on $.now() - emit
+  // 
+  // Show the distance from the party
+  //
+  // Push notification manually from Admin, or using a bot at certain time interval. 
+  //
+  // Colder Hotter, server side switch for distance to the party.
+  // Use a distance() mehod on the client to send a command to the server that will broadcast back a NOTE based on how close you are. 
+
+
+
   // generate unique user id
   var userId = Math.random().toString(16).substring(2,15);
   var socket = io.connect('/');
@@ -18,11 +36,11 @@ $(function() {
       popupAnchor: [0, -30]
     }
   });
+
   var redIcon = new tinyIcon({ iconUrl: '../vendor/leaflet/assets/marker-red.png' });
   var yellowIcon = new tinyIcon({ iconUrl: '../vendor/leaflet/assets/marker-yellow.png' });
 
   var sentData = {}
-
   var connects = {};
   console.log(connects)
   var markers = {};
@@ -44,7 +62,7 @@ $(function() {
     }
 
     connects[data.id] = data;
-    connects[data.id].updated = $.now(); // shothand for (new Date).getTime()    
+    connects[data.id].updated = $.now(); // shorthand for (new Date).getTime()    
 
   });
 
@@ -56,12 +74,13 @@ $(function() {
   }
 
   function positionSuccess(position) {
+
     var lat = position.coords.latitude;
     var lng = position.coords.longitude;
     var acr = position.coords.accuracy;
 
     // mark user's position
-    var userMarker = L.marker([lat, lng], {
+    userMarker = L.marker([lat, lng], {
       icon: redIcon
     });
 
@@ -71,7 +90,9 @@ $(function() {
     // load leaflet map
     map = L.map('map', {
       center: [30.2630, 262.254],
-      zoom: 15
+      zoom: 15,
+      zoomControl: false,
+      attributionControl: false
     });
 
     // leaflet API key tiler
@@ -82,24 +103,55 @@ $(function() {
     userMarker.addTo(map);
     userMarker.bindPopup('<p>You are here! Your ID is ' + userId + '</p>').openPopup();
 
+    //map.fitWorld();
 
-      var markers = new L.MarkerClusterGroup();
-      
-      for (var i = 0; i < addressPoints.length; i++) {
-        var a = addressPoints[i];
-        var title = a[2];
-        var marker = new L.Marker(new L.LatLng(a[0], a[1]), { title: title });
-        marker.bindPopup(title);
-        markers.addLayer(marker);
-      }
+/////////////////////////////////////////////// SOUTH AUSTIN DUMMY DATA   
 
-      map.addLayer(markers);
+    // var markers = new L.MarkerClusterGroup();
+    
+    // for (var i = 0; i < addressPoints.length; i++) {
+    //   var a = addressPoints[i];
+    //   var title = a[2];
+    //   var marker = new L.Marker(new L.LatLng(a[0], a[1]), { title: title });
+    //   marker.bindPopup(title);
+    //   markers.addLayer(marker);
+    // }
+
+    // map.addLayer(markers);
+
+/////////////////////////////////////////////// SOUTH AUSTIN DUMMY DATA  
 
 
-    var emit = $.now();
-    // send coords on when user is active
-    doc.on('mousemove', function() {
-      active = true; 
+/////////////////////////////////////////////// MOUSE EVENTS EMITTER  
+
+    // // set up mousemove listener to broadcast sentData object to all other connected clients 
+    // var emit = $.now();
+    // // send coords on when user is active
+    // doc.on('mousemove', function() {
+    //   active = true; 
+
+    //   sentData = {
+    //     id: userId,
+    //     active: active,
+    //     coords: [{
+    //       lat: lat,
+    //       lng: lng,
+    //       acr: acr
+    //     }]
+    //   }
+
+    //   //console.log("now: " + $.now());
+    //   //console.log("emit: " + emit);
+
+    //   console.log($.now() - emit);
+
+    //   if ($.now() - emit > 10000) {
+    //     socket.emit('send:coords', sentData);
+    //     emit = $.now();
+    //   }
+    // });
+
+/////////////////////// MANUAL INITIAL DATA EMITTER 
 
       sentData = {
         id: userId,
@@ -111,20 +163,62 @@ $(function() {
         }]
       }
 
-      //console.log("now: " + $.now());
-      //console.log("emit: " + emit);
+    socket.emit('send:coords', sentData);
 
-      if ($.now() - emit > 30) {
-        socket.emit('send:coords', sentData);
-        emit = $.now();
-      }
-    });
+/////////////////////// MANUAL INITIAL DATA EMITTER     
+
   }
+
+/////////////////////////////////////////////// MOUSE EVENTS EMITTER
 
   doc.bind('mouseup mouseleave', function() {
     active = false;
   });
 
+  function updateMarker( marker, latitude, longitude, label ){
+
+    console.log('updating marker location')
+
+    //   sentData = {
+    //     id: userId,
+    //     active: active,
+    //     coords: [{
+    //       lat: lat,
+    //       lng: lng,
+    //       acr: acr
+    //     }]
+    //   }
+
+    // socket.emit('send:coords', sentData);
+
+    // marker.setPosition(
+    //   new google.maps.LatLng(
+    //     latitude,
+    //     longitude
+    //   )
+    // );
+   
+    // if (label){        
+    //   marker.setTitle( label );
+    // }
+  }
+
+  var positionTimer = navigator.geolocation.watchPosition(
+    function(position){
+      console.log( "Newer Position Found: " + position.coords.latitude + ", " + position.coords.longitude);
+      //alert( "Newer Position Found: " + position.coords.latitude + ", " + position.coords.longitude);
+      // updateMarker(
+      //   marker,
+      //   position.coords.latitude,
+      //   position.coords.longitude,
+      //   "Updated / Accurate Position"
+      // );  
+    }
+  ); 
+
+
+
+  ///// Marker Clusters
 
   markers = new L.MarkerClusterGroup();
 
@@ -158,7 +252,6 @@ $(function() {
       map.addLayer(markers);
       markers[data.id] = marker;
 
-
     // var markers = new L.MarkerClusterGroup();
     
     // for (var i = 0; i < addressPoints.length; i++) {
@@ -172,6 +265,7 @@ $(function() {
     // map.addLayer(markers);
 
     //}
+
   }
 
   // handle geolocation api errors
@@ -200,32 +294,26 @@ $(function() {
   //   }
   // }, 15000);
 
+  // var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png',
+  //   cloudmadeAttribution = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade, Points &copy 2012 LINZ',
+  //   cloudmade = new L.TileLayer(cloudmadeUrl, {maxZoom: 17, attribution: cloudmadeAttribution}),
+  //   latlng = new L.LatLng(-37.82, 175.24);
 
+  // var map = new L.Map('map', {center: latlng, zoom: 13, layers: [cloudmade]});
 
-    // var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png',
-    //   cloudmadeAttribution = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade, Points &copy 2012 LINZ',
-    //   cloudmade = new L.TileLayer(cloudmadeUrl, {maxZoom: 17, attribution: cloudmadeAttribution}),
-    //   latlng = new L.LatLng(-37.82, 175.24);
+  // var markers = new L.MarkerClusterGroup();
+  
+  // for (var i = 0; i < addressPoints.length; i++) {
+  //   var a = addressPoints[i];
+  //   var title = a[2];
+  //   var marker = new L.Marker(new L.LatLng(a[0], a[1]), { title: title });
+  //   marker.bindPopup(title);
+  //   markers.addLayer(marker);
+  // }
 
-    // var map = new L.Map('map', {center: latlng, zoom: 13, layers: [cloudmade]});
-
-    // var markers = new L.MarkerClusterGroup();
-    
-    // for (var i = 0; i < addressPoints.length; i++) {
-    //   var a = addressPoints[i];
-    //   var title = a[2];
-    //   var marker = new L.Marker(new L.LatLng(a[0], a[1]), { title: title });
-    //   marker.bindPopup(title);
-    //   markers.addLayer(marker);
-    // }
-
-    // map.addLayer(markers);
-
-
+  // map.addLayer(markers);
 
 });
-
-
 
 // $(document).ready(function () {
 
@@ -337,11 +425,6 @@ $(function() {
   // socket.on('count', function (data) {
   //   $(".count").text(data.number);
   // });
-
-
-
-
-
 
   // function updateMarker( marker, latitude, longitude, label ){
   //   marker.setPosition(
