@@ -4,10 +4,10 @@ html
     block head
       title #{title}
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    
     link(rel='stylesheet', href='/layouts/default.css')
     link(rel='stylesheet', href='/layouts/styles.css')
-    link(rel='stylesheet', href='http://cdn.leafletjs.com/leaflet-0.4/leaflet.css')
+    //link(rel='stylesheet', href='http://cdn.leafletjs.com/leaflet-0.4/leaflet.css')
+    link(rel='stylesheet', href='http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.css')
     link(rel="stylesheet", href="/layouts/MarkerCluster.css")
     link(rel="stylesheet", href="/layouts/MarkerCluster.Default.css")
     block neck
@@ -23,7 +23,7 @@ html
           div.nav-collapse
             ul.nav
               li: a(href='/account/') My Account
-              li: a(href='/main/') Main
+              //li: a(href='/main/') Main
             ul.nav.pull-right
               li: a(href='/logout/') Logout
     
@@ -45,14 +45,18 @@ html
     div.ajax-spinner
       img(src='/media/ajax-pulse.gif')
     
+    script(src='/vendor/leaflet/realworld.388.js')
     script(src='/vendor/jquery/jquery-1.8.2.min.js')
     script(src='/vendor/underscore/underscore-min.js')
     script(src='/vendor/backbone/backbone-min.js')
     script(src='/vendor/bootstrap/js/bootstrap.min.js')
     //script(src='/vendor/leaflet/leaflet.js')  
-    script(src='http://cdn.leafletjs.com/leaflet-0.4.5/leaflet.js')
+    script
+      L_PREFER_CANVAS = true
+    //script(src='http://cdn.leafletjs.com/leaflet-0.4.5/leaflet.js')
+    script(src='http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.js')
     script(src='/vendor/leaflet/leaflet.markercluster-src.js')
-    script(src='/vendor/leaflet/realworld.388.js')
+
     script(src='/vendor/socket.io/socket.io.js')
     script(src='/layouts/utility.js')
     //script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyC9V9zwHNI-99Q4x2scm9ASKcMzkJNmGzQ&sensor=false')

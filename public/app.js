@@ -75,6 +75,8 @@ $(function() {
 
   function positionSuccess(position) {
 
+    console.log('positionSuccess');
+
     var lat = position.coords.latitude;
     var lng = position.coords.longitude;
     var acr = position.coords.accuracy;
@@ -107,17 +109,18 @@ $(function() {
 
 /////////////////////////////////////////////// SOUTH AUSTIN DUMMY DATA   
 
-    // var markers = new L.MarkerClusterGroup();
+    var markers = new L.MarkerClusterGroup();
     
-    // for (var i = 0; i < addressPoints.length; i++) {
-    //   var a = addressPoints[i];
-    //   var title = a[2];
-    //   var marker = new L.Marker(new L.LatLng(a[0], a[1]), { title: title });
-    //   marker.bindPopup(title);
-    //   markers.addLayer(marker);
-    // }
+    for (var i = 0; i < addressPoints.length; i++) {
+      console.log('add addressPoints')
+      var a = addressPoints[i];
+      var title = a[2];
+      var marker = new L.Marker(new L.LatLng(a[0], a[1]), { title: title });
+      marker.bindPopup(title);
+      markers.addLayer(marker);
+    }
 
-    // map.addLayer(markers);
+    map.addLayer(markers);
 
 /////////////////////////////////////////////// SOUTH AUSTIN DUMMY DATA  
 
@@ -179,40 +182,34 @@ $(function() {
 
     console.log('updating marker location')
 
-    //   sentData = {
-    //     id: userId,
-    //     active: active,
-    //     coords: [{
-    //       lat: lat,
-    //       lng: lng,
-    //       acr: acr
-    //     }]
-    //   }
+      sentData = {
+        id: userId,
+        active: active,
+        coords: [{
+          lat: latitude,
+          lng: longitude,
+          acr: label
+        }]
+      }
+    
+    var latlng = new L.LatLng(latitude, longitude);
 
-    // socket.emit('send:coords', sentData);
+    userMarker.setLatLng(latlng);
 
-    // marker.setPosition(
-    //   new google.maps.LatLng(
-    //     latitude,
-    //     longitude
-    //   )
-    // );
-   
-    // if (label){        
-    //   marker.setTitle( label );
-    // }
+    socket.emit('send:coords', sentData);
+
   }
 
   var positionTimer = navigator.geolocation.watchPosition(
     function(position){
       console.log( "Newer Position Found: " + position.coords.latitude + ", " + position.coords.longitude);
       //alert( "Newer Position Found: " + position.coords.latitude + ", " + position.coords.longitude);
-      // updateMarker(
-      //   marker,
-      //   position.coords.latitude,
-      //   position.coords.longitude,
-      //   "Updated / Accurate Position"
-      // );  
+      updateMarker(
+        userMarker,
+        position.coords.latitude,
+        position.coords.longitude,
+        "Updated / Accurate Position"
+      );  
     }
   ); 
 
@@ -224,6 +221,7 @@ $(function() {
 
   // showing markers for connections
   function setMarker(data) {
+    console.log('setMarker');
 
     console.log(data);
 
