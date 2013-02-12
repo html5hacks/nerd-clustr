@@ -15,8 +15,6 @@ $(function() {
   // Colder Hotter, server side switch for distance to the party.
   // Use a distance() mehod on the client to send a command to the server that will broadcast back a NOTE based on how close you are. 
 
-
-
   // generate unique user id
   var userId = Math.random().toString(16).substring(2,15);
   var socket = io.connect('/');

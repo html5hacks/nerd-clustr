@@ -12,7 +12,7 @@ var express = require('express')
 var app = express();
 
 //mongo uri
-app.set('mongodb-uri', process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'localhost/starter');
+app.set('mongodb-uri', 'mongodb://nodejitsu_jdcravens:okecgboe57biqe4jvkm6nl7pob@ds051947.mongolab.com:51947/nodejitsu_jdcravens_nodejitsudb1954665151' || process.env.MONGOHQ_URL || 'localhost/starter');
 
 //setup mongoose
 app.db = mongoose.createConnection(app.get('mongodb-uri'));

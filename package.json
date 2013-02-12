@@ -1,13 +1,13 @@
 {
   "name": "SXSW-Party",
   "engines": {
-    "node": "0.8.14",
-    "npm":  "1.1.x"
+    "node": "0.8.x",
+    "npm": "1.1.x"
   },
-  "version": "0.0.1",
+  "version": "0.0.1-4",
   "private": true,
   "scripts": {
-    "start": "node app"
+    "start": "node app.js"
   },
   "dependencies": {
     "express": "~3.0.0",
@@ -22,5 +22,6 @@
     "passport-github": ">=0.1.x",
     "socket.io": "~0.9.11",
     "passport.socketio": "1.0.0"
-  }
+  },
+  "subdomain": "frog.sxsw-party"
 }
