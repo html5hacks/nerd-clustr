@@ -7,24 +7,31 @@ block feet
   script(src='/views/account/index.js')
 
 block body
-  div.page-header
-    p connected users: 
-      span.count 0
-    div.app
-      div#infobox.infobox
+  div#card.card.controls
+    div.frontView 
+      div.page-header
+        p connected users: 
+          span.count 0
+        div.app
+          div#infobox.infobox
+          
+        h1 My Account
+        .row
+          .span6
+            if (isActive == 'no')
+              #accountdata
+            else
+              #identity.form-horizontal
+              #3rdparty-table
+              #password.form-horizontal
+    div.backView
       div#map share your geolocation, dude. 
-       
-    h1 My Account
-  
-  .row
-    .span6
-      if (isActive == 'no')
-        #accountdata
-      else
-        #identity.form-horizontal
-        #3rdparty-table
-        #password.form-horizontal
 
+      script(type='text/javascript')
+        document.querySelector('.controls').addEventListener('click', function(){
+          var elem = document.querySelector('.card');
+          elem.className = (elem.className == 'card')?'card flipped':'card';
+        });
 
       script(type='text/template', id='tmpl-accountdata')
         form.form-horizontal

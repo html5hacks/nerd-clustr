@@ -82,3 +82,60 @@ h1 {
 .leaflet-popup-content {
 	font: 12px 'Lato', Arial, sans-serif !important;
 }
+
+.viewPort {
+  width: 300px;
+  height: 390px;
+  position: relative;
+  margin: 0 auto 40px;
+  -webkit-perspective: 800;
+  perspective: 800;
+}
+
+.card {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  -webkit-transition: -webkit-transform 1s;
+   transition: transform 1s;
+  -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+  -webkit-transform-origin: right center;
+    transform-origin: right center;
+}
+
+.card.flipped {
+  -webkit-transform: translateX( -100% ) rotateY( -180deg );
+          transform: translateX( -100% ) rotateY( -180deg );
+}
+
+.card .frontView, .card .backView {
+  height: 85%;
+  width: 80%;
+  padding: 10%;
+  background: black;
+  color: white;
+  text-align: center;
+  font-weight: bold;
+  font-size: 3em;
+  line-height: 2em;
+  position: absolute;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: 15px;
+}
+
+.card .frontView{
+  background: #ccc;
+  color: black;
+  text-transform: uppercase;
+  
+}
+
+.card .backView {
+  -webkit-transform: rotateY( 180deg );
+   transform: rotateY( 180deg );
+   margin: 10%;
+   height:65%;
+   width:60%;
+}
