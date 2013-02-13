@@ -7,7 +7,7 @@ block feet
   script(src='/views/account/index.js')
 
 block body
-  div#card.card.controls
+  div#card.card.xcontrols
     div.frontView 
       div.page-header
         p connected users: 
@@ -31,7 +31,7 @@ block body
         document.querySelector('.controls').addEventListener('click', function(){
           var elem = document.querySelector('.card');
           elem.className = (elem.className == 'card')?'card flipped':'card';
-        });
+        }, false);
 
       script(type='text/template', id='tmpl-accountdata')
         form.form-horizontal

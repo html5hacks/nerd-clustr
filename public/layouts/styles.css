@@ -83,18 +83,28 @@ h1 {
 	font: 12px 'Lato', Arial, sans-serif !important;
 }
 
-.viewPort {
-  width: 300px;
-  height: 390px;
+
+/*added in for card flip */
+.container {
+  width: 98%;
+  xheight: 390px;
   position: relative;
-  margin: 0 auto 40px;
+  xmargin: 0 auto 40px;
   -webkit-perspective: 800;
   perspective: 800;
+
+
 }
 
+.footer {/*hidden for now until impliment flexbox */
+  display: none;
+}
+
+
 .card {
+    
   width: 100%;
-  height: 100%;
+  xheight: 100%;
   position: absolute;
   -webkit-transition: -webkit-transform 1s;
    transition: transform 1s;
@@ -102,6 +112,7 @@ h1 {
     transform-style: preserve-3d;
   -webkit-transform-origin: right center;
     transform-origin: right center;
+    
 }
 
 .card.flipped {
@@ -110,9 +121,10 @@ h1 {
 }
 
 .card .frontView, .card .backView {
-  height: 85%;
-  width: 80%;
-  padding: 10%;
+  xheight: 90%;
+  overflow: hidden;
+  width: 96%;
+  padding: 2%;
   background: black;
   color: white;
   text-align: center;
@@ -135,7 +147,7 @@ h1 {
 .card .backView {
   -webkit-transform: rotateY( 180deg );
    transform: rotateY( 180deg );
-   margin: 10%;
-   height:65%;
-   width:60%;
+   xmargin: 10%;
+   xheight:65%;
+  x width:60%;
 }
