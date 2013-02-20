@@ -8,22 +8,34 @@ block feet
 
 block body
   div#card.card.xcontrols
-    div.frontView 
-      div.page-header
-        p connected users: 
-          span.count 0
-        div.app
-          div#infobox.infobox
+    div.frontView
+      ul.nav.nav-tabs.nav-stacked
+        li 
+          a(href="#status", data-toggle="tab") status
+        li 
+          a(href="#account", data-toggle="tab") account
+        li 
+          a(href="#state", data-toggle="tab") state
+
+      div.tab-content
+        div.tab-pane.active#status
+          div.page-header
+            p connected users: 
+              span.count 0
+                div.app
+                  div#infobox.infobox
+              
+        div.tab-pane#account
+          .row
+            .span6
+              if (isActive == 'no')
+                #accountdata
+              else
+                #identity.form-horizontal
+                //#3rdparty-table
+                #password.form-horizontal
+        div.tab-pane#state state
           
-        h1 My Account
-        .row
-          .span6
-            if (isActive == 'no')
-              #accountdata
-            else
-              #identity.form-horizontal
-              //#3rdparty-table
-              #password.form-horizontal
     div.backView
       div#map share your geolocation, dude. 
 
