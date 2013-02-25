@@ -16,18 +16,15 @@ html
     div.navbar.navbar-inverse.navbar-fixed-top
       div.navbar-inner
         div.container
-          a.btn.btn-navbar(data-toggle='collapse', data-target='.nav-collapse')
-            span.icon-bar
-            span.icon-bar
-            span.icon-bar
           a.brand(href='/account/') #{projectName}
-          div.nav-collapse
-            ul.nav
-              li: a(href='/account/') My Account
-              li: a(href='javascript:;').controls Settings
-            ul.nav.pull-right
-              li: a(href='/logout/') Logout
-    
+          span.pull-right
+            button(type='button').btn.btn-mini.btn-info.controls
+              span.icon-edit 
+              span settings
+            button(type='button', onclick='document.location.href="/logout/"').btn.btn-mini.btn-info
+              span.icon-off 
+              span logout      
+
     div.page
       div.container
         block body
