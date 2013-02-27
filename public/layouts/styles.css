@@ -44,7 +44,7 @@ h1 {
 
 #map {
 	//width: 750px;
-	height: 420px;
+	height: 100%;
 	background: transparent;
 }
 
@@ -108,8 +108,8 @@ background: black;
 .card {
     
   width: 100%;
-  xheight: 100%;
-  position: absolute;
+  height: 600px;
+  position: relative;
   -webkit-transition: -webkit-transform 1s;
    transition: transform 1s;
   -webkit-transform-style: preserve-3d;
@@ -126,7 +126,7 @@ background: black;
 }
 
 .card .frontView, .card .backView {
-  xheight: 90%;
+  height: 100%;
   overflow: hidden;
   width: 96%;
   padding: 2%;
@@ -163,5 +163,11 @@ background: black;
 }
 .card.flipped .backView{
       backface-visibility: visible;
+    
+}
+
+.newNav .btn {
+    margin: 5px;
+    margin-top: 10px;
     
 }
