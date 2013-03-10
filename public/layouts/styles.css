@@ -152,22 +152,30 @@ background: black;
 
 .card .backView {
   -webkit-transform: rotateY( 180deg );
-   transform: rotateY( 180deg );
+  transform: rotateY( 180deg );
 
 }
 
 
 .card.flipped .frontView{
-      xbackface-visibility: visible;
+  xbackface-visibility: visible;
     
 }
 .card.flipped .backView{
-      backface-visibility: visible;
+  backface-visibility: visible;
     
 }
 
 .newNav .btn {
-    margin: 5px;
-    margin-top: 10px;
-    
+  margin: 5px;
+  margin-top: 10px;  
+}
+
+.hero-unit {
+  border: 1px solid #ccc;
+  border-radius: 15px;
+}
+
+.hero-unit h1 {
+  font-size: 30px;
 }
