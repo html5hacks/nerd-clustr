@@ -3,9 +3,9 @@ nerdclustr
 
 ![nerdclustr logo](/public/images/logo3-horizontal_250.png "nerdclustr logo")  
 
-![nerdclustr screen 1](/public/images/Screen1.png "nerdclustr screen 1") 
-![nerdclustr screen 2](/public/images/Screen2.png "nerdclustr screen 2") 
-
+![nerdclustr screen 3](/public/images/Screen3.png "nerdclustr screen 3") 
+![nerdclustr screen 4](/public/images/Screen4.png "nerdclustr screen 4") 
+![nerdclustr screen 5](/public/images/Screen5.png "nerdclustr screen 5") 
 
 O'Reilly HTML5 Hacks
 ------------
