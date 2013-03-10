@@ -174,3 +174,7 @@ background: black;
 .hero-unit h1 {
   font-size: 30px;
 }
+
+.navbar .brand {
+  padding: 0;
+}
