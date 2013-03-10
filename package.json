@@ -1,5 +1,5 @@
 {
-  "name": "SXSW-Party",
+  "name": "nerdclustr",
   "engines": {
     "node": "0.8.x",
     "npm": "1.1.x"
@@ -23,5 +23,5 @@
     "socket.io": "~0.9.11",
     "passport.socketio": "1.0.0"
   },
-  "subdomain": "frog.sxsw-party"
+  "subdomain": "nerdclustr"
 }
