@@ -20,10 +20,9 @@ html
           a.brand(href='/account/')
             img(src="../images/logo3-horizontal_175.png")
           span.pull-right.newNav
-            button(type='button').btn.btn-inverse.controls
+            button(type='button')#flipper.btn.btn-inverse
               span.icon-edit 
-              span view profile
-              span.hidden view map
+              span.view-button view profile
             button(type='button', onclick='document.location.href="/logout/"').btn.btn-inverse
               span.icon-off 
               span logout      

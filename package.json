@@ -4,7 +4,7 @@
     "node": "0.8.x",
     "npm": "1.1.x"
   },
-  "version": "0.0.1-9",
+  "version": "0.0.1-10",
   "private": true,
   "scripts": {
     "start": "node app.js"
@@ -21,7 +21,8 @@
     "passport-twitter": ">=0.1.x",
     "passport-github": ">=0.1.x",
     "socket.io": "~0.9.11",
-    "passport.socketio": "1.0.0"
+    "passport.socketio": "1.0.0",
+    "eventbrite":"0.1.6"
   },
   "subdomain": "nerdclustr"
 }

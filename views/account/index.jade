@@ -7,26 +7,37 @@ block feet
   script(src='/views/account/index.js')
 
 block body
-  div#card.card.xcontrols
+  div#card.card.xcontrols.flipped
     div.frontView
 
       h2 Profile
       ul.nav.nav-tabs.nav-stacked
-        li 
+        li.active 
           a(href="#status", data-toggle="tab") status
         li 
           a(href="#account", data-toggle="tab") account
-        li 
-          a(href="#state", data-toggle="tab") state
+        // li 
+        //   a(href="#state", data-toggle="tab") state
 
       div.tab-content
         div.tab-pane.active#status
           div.page-header
-            p connected users: 
+            h3 Connected Nerds
+            p Developers: 
+              span.developers-count 0          
+            p Designers: 
+              span.designers-count 0              
+            p Managers: 
+              span.managers-count 0
+            p Gamers: 
+              span.gamers-count 0
+            p Makers: 
+              span.makers-count 0            
+            p Total Users: 
               span.count 0
                 div.app
                   div#infobox.infobox
-              
+
         div.tab-pane#account
           .row
             .span6
@@ -34,17 +45,20 @@ block body
                 #accountdata
               else
                 #identity.form-horizontal
-                //#3rdparty-table
+                #3rdparty-table
                 #password.form-horizontal
+
         div.tab-pane#state state
           
     div.backView
       div#map share your geolocation, dude. 
 
       script(type='text/javascript')
-        document.querySelector('.controls').addEventListener('click', function(){
+        document.querySelector('#flipper').addEventListener('click', function(){
           var elem = document.querySelector('.card');
           elem.className = (elem.className == 'card')?'card flipped':'card';
+          var viewbutton = $('.view-button');
+          viewbutton.text((elem.className == 'card flipped')?'view profile':'view map');
         }, false);
 
       script(type='text/template', id='tmpl-accountdata')
@@ -117,7 +131,7 @@ block body
       script(type='text/template', id='data-record') !{data.record}
   
   script(type='text/template', id='tmpl-3rdparty-table')
-    legend 3rd party authentication
+    legend Social Accounts
     table.table.table-striped
       thead
         tr

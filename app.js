@@ -6,7 +6,8 @@ var express = require('express')
   , passport = require('passport')
   , mongoose = require('mongoose')
   , socketIo = require('socket.io')
-  , passportSocketIo = require("passport.socketio");
+  , passportSocketIo = require("passport.socketio")
+  , Eventbrite = require('eventbrite');
 
 //create express app
 var app = express();

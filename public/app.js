@@ -36,7 +36,11 @@ $(function() {
   });
 
   var redIcon = new tinyIcon({ iconUrl: '../vendor/leaflet/assets/marker-red.png' });
+  var orangeIcon = new tinyIcon({ iconUrl: '../vendor/leaflet/assets/marker-orange.png' });
+  var blueIcon = new tinyIcon({ iconUrl: '../vendor/leaflet/assets/marker-blue.png' });
+  var greenIcon = new tinyIcon({ iconUrl: '../vendor/leaflet/assets/marker-green.png' });
   var yellowIcon = new tinyIcon({ iconUrl: '../vendor/leaflet/assets/marker-yellow.png' });
+  var purpleIcon = new tinyIcon({ iconUrl: '../vendor/leaflet/assets/marker-purple.png' });
 
   var sentData = {}
   var connects = {};
@@ -81,7 +85,7 @@ $(function() {
 
     // mark user's position
     userMarker = L.marker([lat, lng], {
-      icon: redIcon
+      icon: orangeIcon
     });
 
     // uncomment for static debug
@@ -89,36 +93,58 @@ $(function() {
 
     // load leaflet map
     map = L.map('map', {
-      center: [30.2630, 262.254],
-      zoom: 15,
       zoomControl: false,
       attributionControl: false
     });
 
+    map.setView(new L.LatLng(lat, lng), 14)
+
     // leaflet API key tiler
     L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png', { maxZoom: 18, detectRetina: true }).addTo(map);
     
-    // set map bounds
-    //map.fitWorld();
     userMarker.addTo(map);
-    //userMarker.bindPopup('<p>You are here! Your ID is ' + userId + '</p>').openPopup();
+    userMarker.bindPopup('<p>You are here! Your ID is ' + userId + '</p>').openPopup();
 
-    //map.fitWorld();
+
+/////////////////////////////////////////////// NERDTYPE LEGEND
+
+    var legend = L.control({position: 'topleft'});
+
+    legend.onAdd = function (map) {
+
+        var div = L.DomUtil.create('div', 'info legend'),
+            types = ['You', 'Developers', 'Designers', 'Managers', 'Gamers', 'Makers'],
+            colors = ['orange', 'blue', 'green', 'yellow', 'purple', 'red']
+            labels = ['me', 'developer', 'designer', 'business-geek'];
+
+        // loop through our density intervals and generate a label with a colored square for each interval
+        for (var i = 0; i < types.length; i++) {
+            div.innerHTML +=
+                "<img style='padding: 2px 0' src='../vendor/leaflet/assets/marker-" + colors[i] +  ".png'> " +
+                types[i] + (types[i] ? '<br>' : '');
+        }
+
+        return div;
+    };
+
+    legend.addTo(map);
+
+/////////////////////////////////////////////// NERDTYPE LEGEND
 
 /////////////////////////////////////////////// SOUTH AUSTIN DUMMY DATA   
 
-    var markers = new L.MarkerClusterGroup();
+    // var markers = new L.MarkerClusterGroup();
     
-    for (var i = 0; i < addressPoints.length; i++) {
-      console.log('add addressPoints')
-      var a = addressPoints[i];
-      var title = a[2];
-      var marker = new L.Marker(new L.LatLng(a[0], a[1]), { title: title });
-      marker.bindPopup(title);
-      markers.addLayer(marker);
-    }
+    // for (var i = 0; i < addressPoints.length; i++) {
+    //   console.log('add addressPoints')
+    //   var a = addressPoints[i];
+    //   var title = a[2];
+    //   var marker = new L.Marker(new L.LatLng(a[0], a[1]), { title: title });
+    //   marker.bindPopup(title);
+    //   markers.addLayer(marker);
+    // }
 
-    map.addLayer(markers);
+    // map.addLayer(markers);
 
 /////////////////////////////////////////////// SOUTH AUSTIN DUMMY DATA  
 
