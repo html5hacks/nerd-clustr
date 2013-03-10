@@ -178,3 +178,9 @@ background: black;
 .navbar .brand {
   padding: 0;
 }
+
+.navbar-inverse .navbar-inner {
+  background-color: #d8d8d8;
+}
+
+
