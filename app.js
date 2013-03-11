@@ -13,12 +13,12 @@ var express = require('express')
 var app = express();
 
 //mongo uri
-//app.set('mongodb-uri', 'mongodb://nodejitsu_jdcravens:lmjd49kc80bf1pcitjlt6hv3hh@ds051947.mongolab.com:51947/nodejitsu_jdcravens_nodejitsudb8260783110' || process.env.MONGOHQ_URL || 'starter');
+app.set('mongodb-uri', 'mongodb://nodejitsu_jdcravens:lmjd49kc80bf1pcitjlt6hv3hh@ds051947.mongolab.com:51947/nodejitsu_jdcravens_nodejitsudb8260783110' || 'starter');
 
 //console.log(process.env.MONGOLAB_URI)
 
 //mongo uri
-app.set('mongodb-uri', process.env.MONGOLAB_URI || 'localhost/starter');
+//app.set('mongodb-uri', process.env.MONGOLAB_URI || 'localhost/starter');
 
 console.log(app.get('mongodb-uri'))
 
