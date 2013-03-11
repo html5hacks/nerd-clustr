@@ -48,10 +48,10 @@ block body
                 #3rdparty-table
                 #password.form-horizontal
 
-        div.tab-pane#state state
+        // div.tab-pane#state state
           
     div.backView
-      div#map share your geolocation, dude. 
+      div#map Share your geolocation to see map. 
 
       script(type='text/javascript')
         document.querySelector('#flipper').addEventListener('click', function(){
@@ -74,13 +74,18 @@ block body
             |<% } %>
             |<% if (isActive == 'no') { %>
             div.alert.alert-info
-              | Please complete your setup by providing a username, email and password.
+              | Please complete your setup by providing a username, nerdtype, email and password.
             |<% } %>
           div.control-group(class!='<%= errfor.username ? "error" : "" %>')
             label.control-label Username:
             div.controls
               input(type='text', name='username', value!='<%= username %>', required='true')
               span.help-inline <%= errfor.username %>
+          div.control-group(class!='<%= errfor.nerdtype ? "error" : "" %>')
+            label.control-label What Type of Nerd Are You?:
+            div.controls
+              input(type='text', name='nerdtype', value!='<%= nerdtype %>', required='true')
+              span.help-inline <%= errfor.nerdtype %>              
           div.control-group(class!='<%= errfor.email ? "error" : "" %>')
             label.control-label Email:
             div.controls
@@ -172,6 +177,17 @@ block body
       div.controls
         input(type='text', name='username', value!='<%= username %>', required='true')
         span.help-inline <%= errfor.username %>
+    div.control-group(class!='<%= errfor.nerdtype ? "error" : "" %>')
+      label.control-label Type of Nerd:
+      div.controls  
+        select(name='nerdtype', required='true')
+          option(value='developer') developer
+          option(value='designer') designer
+          option(value='manager') manager
+          option(value='gamer') gamer
+          option(value='maker') maker                                      
+        span.help-inline <%= errfor.nerdtype %>
+
     div.control-group(class!='<%= errfor.email ? "error" : "" %>')
       label.control-label Email:
       div.controls

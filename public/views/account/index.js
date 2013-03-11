@@ -65,8 +65,6 @@ function format3rdPartyModel(modeldata){
  **/
   var app = app || {};
 
-
-
 /**
  * MODELS
  **/
@@ -78,6 +76,7 @@ function format3rdPartyModel(modeldata){
       errors: [],
       errfor: {},
       username: '',
+      nerdtype: 'developer',
       email: '',
       password: '',
       confirm: '',
@@ -128,6 +127,7 @@ function format3rdPartyModel(modeldata){
       errfor: {},
       isActive: '',
       username: '',
+      nerdtype: '',
       email: ''
     },
     url: function() {
@@ -137,6 +137,7 @@ function format3rdPartyModel(modeldata){
       this.set(data);
     },
     update: function() {
+      console.log('Identity update!')
       this.save(undefined, {
         success: function(model, response, options) {
           if (response.success) {
@@ -183,7 +184,6 @@ function format3rdPartyModel(modeldata){
     }
   });
 
-
   app.ThirdParty = Backbone.Model.extend({
     urlRoot: '/account/3rdparty/',
     defaults: {
@@ -223,8 +223,6 @@ function format3rdPartyModel(modeldata){
               //unrecognized provider
           }
     }
-    
-    
   });
   
   app.ThirdPartyCollection = Backbone.Collection.extend({
@@ -235,7 +233,6 @@ function format3rdPartyModel(modeldata){
       return services.data;
     }
   });
-  
 
 /**
  * VIEWS
@@ -257,7 +254,7 @@ function format3rdPartyModel(modeldata){
       var modelData = this.model.toJSON();
       
       //render
-      this.$el.html(this.template( modelData ));
+      this.$el.html(this.template(modelData));
       
       //set input values
       for(var key in modelData) {
@@ -277,15 +274,16 @@ function format3rdPartyModel(modeldata){
       if (event) event.preventDefault();
       this.model.set({
         username: this.$el.find('[name="username"]').val(),
+        nerdtype: this.$el.find('[name="nerdtype"]').val(),
         email: this.$el.find('[name="email"]').val(),
         password: this.$el.find('[name="password"]').val(),
         confirm: this.$el.find('[name="confirm"]').val(),
       });
       this.$el.find('.btn-accountdata').attr('disabled', true);
+      console.log(this.model.accountdata())
       this.model.accountdata();
     }
   });
-
 
   app.PasswordView = Backbone.View.extend({
     el: '#password',
@@ -317,7 +315,6 @@ function format3rdPartyModel(modeldata){
       }
     }
   });
-
 
   app.IdentityView = Backbone.View.extend({
     el: '#identity',
@@ -358,6 +355,7 @@ function format3rdPartyModel(modeldata){
               this.model = new app.Identity({
                   _id: initData._id,
                   isActive: initData.isActive,
+                  nerdtype: initData.nerdtype,
                   username: initData.username,
                   email: initData.email
               });
@@ -369,14 +367,13 @@ function format3rdPartyModel(modeldata){
                   })
               });
               
-          }//if
+          }
           else {
-
-
               this.model = new app.AccountData({
                   _id: initData._id,
                   username: initData.username,
                   email: initData.email,
+                  nerdtype: initData.nerdtype,
                   password: '',
                   confirm: '',
                   isActive: initData.isActive,
@@ -386,13 +383,14 @@ function format3rdPartyModel(modeldata){
               app.accountdataView = new app.AccountDataView({
                   model: this.model
               });
-          }//else
+          }
           this.render(); 
       },//initialize
 
       update: function() {
       this.model.set({
         isActive: this.$el.find('[name="isActive"]').val(),
+        nerdtype: this.$el.find('[name="nerdtype"]').val(),
         username: this.$el.find('[name="username"]').val(),
         email: this.$el.find('[name="email"]').val()
       }, {silent: true});
@@ -412,7 +410,6 @@ function format3rdPartyModel(modeldata){
     }      
   });
 
-
   app.ThirdPartyView = Backbone.View.extend({
     el: '#3rdparty-table',
     template: _.template( $('#tmpl-3rdparty-table').html() ),
@@ -424,7 +421,6 @@ function format3rdPartyModel(modeldata){
       this.collection = new app.ThirdPartyCollection( services.data );
       this.collection.on('reset', this.render, this);
     
-     
       this.render();
     },
     render: function() {
@@ -442,7 +438,6 @@ function format3rdPartyModel(modeldata){
 
       
     }
-
   });
   
   app.ThirdPartyRowView = Backbone.View.extend({

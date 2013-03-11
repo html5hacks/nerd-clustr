@@ -1,4 +1,6 @@
 exports.init = function(req, res){
+
+    console.log('init: ' , req.body)
     if (req.isAuthenticated()) {
         res.locals.user = req.user;
         res.locals.isAuthenticated = true;
@@ -50,8 +52,9 @@ exports.init = function(req, res){
     }
 };
 
-
 exports.updateaccount = function(req, res){
+
+  console.log('updateaccount')
   //create a workflow event emitter
   var workflow = new req.app.utility.Workflow(req, res);
   
@@ -121,6 +124,7 @@ exports.updateaccount = function(req, res){
     var fieldsToSet = {
       isActive: 'yes',
       username: req.body.username,
+      nerdtype: req.body.nerdtype,
       email: req.body.email,
       password: req.app.db.models.User.encryptPassword(req.body.password)
     };
@@ -208,13 +212,19 @@ exports.updateaccount = function(req, res){
 };
 
 exports.update = function(req, res, next){
+
+  console.log('update: ' , req.body)
+  console.log('update: ' , req.body.nerdtype)
+
   //create a workflow event emitter
   var workflow = new req.app.utility.Workflow(req, res);
   
   workflow.on('validate', function() {
     //defaults
     if (!req.body.isActive) req.body.isActive = 'no';
-    
+
+    if (!req.body.nerdtype) req.body.nerdtype = 'undeclared';
+
     //verify
     if (!req.body.username) {
       workflow.outcome.errfor.username = 'required';
@@ -237,6 +247,9 @@ exports.update = function(req, res, next){
   });
   //TODO: use server side user-id vs _id provided from client for security reasons
   workflow.on('duplicateUsernameCheck', function() {
+
+    console.log('duplicateUsernameCheck: ' , req.body.nerdtype)
+
     res.app.db.models.User.findOne({ username: req.body.username, _id: {$ne: req.body._id} }, function(err, user) {
       if (err) return workflow.emit('exception', err);
       
@@ -250,6 +263,9 @@ exports.update = function(req, res, next){
   });
   
   workflow.on('duplicateEmailCheck', function() {
+
+    console.log('duplicateEmailCheck: ' , req.body.nerdtype)
+
       //TODO: use server side user-id vs _id provided from client for security reasons
     res.app.db.models.User.findOne({ email: req.body.email, _id: {$ne: req.body._id} }, function(err, user) {
       if (err) return workflow.emit('exception', err);
@@ -264,8 +280,12 @@ exports.update = function(req, res, next){
   });
   
   workflow.on('patchUser', function() {
+
+    console.log('patchUser: ' , req.body.nerdtype)
+
     var fieldsToSet = {
       isActive: req.body.isActive,
+      nerdtype: req.body.nerdtype,
       username: req.body.username,
       email: req.body.email
     };
@@ -279,8 +299,6 @@ exports.update = function(req, res, next){
   //start the workflow
   workflow.emit('validate');
 };
-
-
 
 exports.password = function(req, res, next){
   //create a workflow event emitter

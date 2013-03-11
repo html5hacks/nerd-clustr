@@ -13,7 +13,14 @@ var express = require('express')
 var app = express();
 
 //mongo uri
-app.set('mongodb-uri', 'mongodb://nodejitsu_jdcravens:lmjd49kc80bf1pcitjlt6hv3hh@ds051947.mongolab.com:51947/nodejitsu_jdcravens_nodejitsudb8260783110' || process.env.MONGOHQ_URL || 'localhost/starter');
+//app.set('mongodb-uri', 'mongodb://nodejitsu_jdcravens:lmjd49kc80bf1pcitjlt6hv3hh@ds051947.mongolab.com:51947/nodejitsu_jdcravens_nodejitsudb8260783110' || process.env.MONGOHQ_URL || 'starter');
+
+//console.log(process.env.MONGOLAB_URI)
+
+//mongo uri
+app.set('mongodb-uri', process.env.MONGOLAB_URI || 'localhost/starter');
+
+console.log(app.get('mongodb-uri'))
 
 //setup mongoose
 app.db = mongoose.createConnection(app.get('mongodb-uri'));
@@ -125,6 +132,24 @@ io.on('connection',function(socket){
   io.sockets.emit('count', {
       number: count
   });
+
+  // var nerdtype = .....
+  // switch(nerdtype){
+  //   case developer:
+  //     console.log('emit developer count');
+  //     io.sockets.emit('count', {
+  //       number: count
+  //     });
+  //   break;
+  //   case designer:
+  //     console.log('emit designer count');
+  //   break;
+  //   case manager:
+  //     console.log('emit manager count');
+  //   break;
+  //   default:
+  //     console.log('user is of no nerdtype');
+  // };
 
   socket.on('send:coords', function (data) {
     socket.broadcast.emit('load:coords', data);

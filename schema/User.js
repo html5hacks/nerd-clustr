@@ -1,6 +1,7 @@
 exports = module.exports = function(app, mongoose) {
   var userSchema = new mongoose.Schema({
     username: { type: String, unique: true },
+    nerdtype: String,
     password: String,
     email: String,
     roles: {
