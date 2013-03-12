@@ -48,12 +48,7 @@ app.configure(function(){
   app.set('admin-email', 'webdev.jdcravens@gmail.com');
   app.set('email-from-name', app.get('project-name')+ ' Website');
   app.set('email-from-address', 'webdev.jdcravens@gmail.com');
-  app.set('email-credentials', {
-    user: 'html5hacksbook@gmail.com',
-    password: 'html5432',
-    host: 'smtp.gmail.com',
-    ssl: true
-  });
+
 
   mySessionStore = new mongoStore({ url: app.get('mongodb-uri') });
   mySecret = 'Sup3rS3cr3tK3y';
