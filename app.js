@@ -37,10 +37,6 @@ app.configure(function(){
   app.set('view engine', 'jade');
   app.set('strict routing', true);
   app.set('project-name', "nerdclustr");
-  app.set('company-name', 'jessecravens.com');
-  app.set('admin-email', 'webdev.jdcravens@gmail.com');
-  app.set('email-from-name', app.get('project-name')+ ' Website');
-  app.set('email-from-address', 'webdev.jdcravens@gmail.com');
 
   mySessionStore = new mongoStore({ url: app.get('mongodb-uri') });
   mySecret = 'Sup3rS3cr3tK3y';
