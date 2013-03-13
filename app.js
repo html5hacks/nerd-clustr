@@ -13,14 +13,7 @@ var express = require('express')
 var app = express();
 
 //mongo uri
-app.set('mongodb-uri', 'mongodb://nodejitsu_jdcravens:lmjd49kc80bf1pcitjlt6hv3hh@ds051947.mongolab.com:51947/nodejitsu_jdcravens_nodejitsudb8260783110' || 'starter');
-
-//console.log(process.env.MONGOLAB_URI)
-
-//mongo uri
-//app.set('mongodb-uri', process.env.MONGOLAB_URI || 'localhost/starter');
-
-console.log(app.get('mongodb-uri'))
+app.set('mongodb-uri', process.env.MONGOLAB_URI || 'localhost/starter');
 
 //setup mongoose
 app.db = mongoose.createConnection(app.get('mongodb-uri'));
@@ -48,7 +41,6 @@ app.configure(function(){
   app.set('admin-email', 'webdev.jdcravens@gmail.com');
   app.set('email-from-name', app.get('project-name')+ ' Website');
   app.set('email-from-address', 'webdev.jdcravens@gmail.com');
-
 
   mySessionStore = new mongoStore({ url: app.get('mongodb-uri') });
   mySecret = 'Sup3rS3cr3tK3y';
@@ -149,41 +141,6 @@ io.on('connection',function(socket){
   socket.on('send:coords', function (data) {
     socket.broadcast.emit('load:coords', data);
   });
-  
-  //socket.emit('init',{msg:"test"})
-  // socket.on('init', function (data) {
-
-  //   // io.sockets.emit('pin', {
-  //   //     lat: data.Ya, // center: new google.maps.LatLng(30.2630, 262.254),
-  //   //     lng: data.Za, 
-  //   //     username: socket.handshake.user.username
-  //   // });
-
-  //   send(JSON.stringify({
-  //       type: 'pin',
-  //       lat: data.Ya, // center: new google.maps.LatLng(30.2630, 262.254),
-  //       lng: data.Za, 
-  //       username: socket.handshake.user.username
-  //     })
-  //   );
-  // })
-
-  // console.log("user connected: ", socket.handshake.user.username);
-
-  //filter sockets by user...
-  // var userGender = socket.handshake.user.gender, 
-  //     opposite = userGender === "male" ? "female" : "male";
-
-  // passportSocketIo.filterSocketsByUser(io, function (user) {
-  //   return user.gender === opposite;
-  // }).forEach(function(s){
-  //   s.send("a " + userGender + " has arrived!");
-  // });
-
-  // io.sockets.emit('pin', {
-  //     lat: 30.2630, // center: new google.maps.LatLng(30.2630, 262.254),
-  //     lng: 262.254 
-  // });
 
   socket.on('disconnect', function (client) {
     var index = clients.indexOf(client);
